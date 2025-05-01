@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Profile</title>
+  <style>
+    :root {
+      --primary-color: #4f46e5;
+      --primary-light: #eef2ff;
+      --text-dark: #1f2937;
+      --text-medium: #4b5563;
+      --text-light: #6b7280;
+      --background: #f9fafb;
+      --card-bg: #ffffff;
+      --border-color: #e5e7eb;
+      --success-color: #10b981;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--background);
+      color: var(--text-dark);
+      line-height: 1.6;
+      padding: 0;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .profile-container {
+      width: 100%;
+      max-width: 700px;
+      margin: 2rem;
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+    
+    .profile-header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 2.5rem;
+      position: relative;
+    }
+    
+    .profile-header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .profile-header p {
+      opacity: 0.9;
+      font-size: 1rem;
+    }
+    
+    .profile-content {
+      padding: 2rem;
+    }
+    
+    .profile-section {
+      margin-bottom: 2rem;
+    }
+    
+    .profile-section:last-child {
+      margin-bottom: 0;
+    }
+    
+    .section-title {
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-light);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+    
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .info-item {
+      background-color: var(--primary-light);
+      padding: 1.25rem;
+      border-radius: 8px;
+      transition: transform 0.2s ease;
+    }
+    
+    .info-item:hover {
+      transform: translateY(-2px);
+    }
+    
+    .info-label {
+      font-size: 0.875rem;
+      color: var(--primary-color);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .info-value {
+      font-size: 1.125rem;
+      color: var(--text-dark);
+      word-break: break-word;
+    }
+    
+    .summary-box {
+      background-color: var(--primary-light);
+      padding: 1.5rem;
+      border-radius: 8px;
+      border-left: 4px solid var(--primary-color);
+    }
+    
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem;
+      color: var(--text-light);
+      font-style: italic;
+    }
+    
+    .loading::after {
+      content: "";
+      width: 1.5rem;
+      height: 1.5rem;
+      border: 2px solid var(--border-color);
+      border-top-color: var(--primary-color);
+      border-radius: 50%;
+      margin-left: 0.75rem;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    @media (max-width: 600px) {
+      .profile-container {
+        margin: 1rem;
+        border-radius: 8px;
+      }
+      
+      .profile-header {
+        padding: 1.5rem;
+      }
+      
+      .profile-content {
+        padding: 1.5rem;
+      }
+      
+      .info-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <div class="profile-header">
+      <h1>User Profile</h1>
+      <p>Personal and contact information</p>
+    </div>
+    
+    <div class="profile-content">
+      <div id="user-details" class="loading">Loading profile data...</div>
+    </div>
+  </div>
+
+  <script>
+    async function loadUserData() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id");
+
+      if (!id) {
+        document.getElementById("user-details").innerHTML = "<p>Missing user ID in URL.</p>";
+        return;
+      }
+
+      try {
+        const res = await fetch(`https://job-fvr7.onrender.com/api/auth/publicUser/${id}`);
+        const user = await res.json();
+
+        if (!user || user.message === "User not found") {
+          document.getElementById("user-details").innerHTML = "<p>User not found.</p>";
+          return;
+        }
+
+        // Update header with user name if available
+        if (user.firstName && user.lastName) {
+          document.querySelector(".profile-header h1").textContent = `${user.firstName} ${user.lastName}`;
+        }
+
+        const html = `
+          <div class="profile-section">
+            <h2 class="section-title">Contact Information</h2>
+            <div class="info-grid">
+              <div class="info-item">
+                <div class="info-label">Email</div>
+                <div class="info-value">${user.email},</div>
+              </div>
+              <div class="info-item">
+                <div class="info-label">Phone</div>
+                <div class="info-value">${user.phone || "Not provided"}</div>
+              </div>
+              <div class="info-item">
+                <div class="info-label">Location</div>
+                <div class="info-value">${user.location || "Not provided"}</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="profile-section">
+            <h2 class="section-title">About</h2>
+            <div class="summary-box">
+              <div class="info-value">${user.summary || "No summary provided."}</div>
+            </div>
+          </div>
+        `;
+        
+        document.getElementById("user-details").innerHTML = html;
+      } catch (err) {
+        console.error(err);
+        document.getElementById("user-details").innerHTML = "<p>Error fetching user data.</p>";
+      }
+    }
+
+    loadUserData();
+  </script>
+</body>
+</html>
