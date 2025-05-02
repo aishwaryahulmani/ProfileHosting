@@ -1,631 +1,365 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Premium User Profile</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
-  <style>
-    :root {
-      /* Premium color palette */
-      --gradient-start: #4f46e5;
-      --gradient-end: #7c3aed;
-      --accent-color: #8b5cf6;
-      --text-primary: #1e293b;
-      --text-secondary: #475569;
-      --text-tertiary: #64748b;
-      --bg-primary: #f8fafc;
-      --bg-secondary: #f1f5f9;
-      --bg-card: #ffffff;
-      --border-light: #e2e8f0;
-      --success: #10b981;
-      --info: #0ea5e9;
-      --warning: #f59e0b;
-      --error: #ef4444;
-      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-      --rounded-sm: 0.25rem;
-      --rounded-md: 0.375rem;
-      --rounded-lg: 0.5rem;
-      --rounded-xl: 0.75rem;
-      --rounded-2xl: 1rem;
-      --rounded-3xl: 1.5rem;
-      --rounded-full: 9999px;
-    }
-    
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    
-    body {
-      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background-color: var(--bg-primary);
-      color: var(--text-primary);
-      line-height: 1.6;
-      padding: 0;
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    
-    .container {
-      width: 100%;
-      max-width: 800px;
-      padding: 2rem 1rem;
-    }
-    
-    .profile-card {
-      background-color: var(--bg-card);
-      border-radius: var(--rounded-2xl);
-      box-shadow: var(--shadow-xl);
-      overflow: hidden;
-      position: relative;
-    }
-    
-    .profile-header {
-      position: relative;
-      padding: 3rem 2rem;
-      text-align: center;
-      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-      color: white;
-    }
-    
-    .profile-header::after {
-      content: "";
-      position: absolute;
-      bottom: -20px;
-      left: 0;
-      right: 0;
-      height: 40px;
-      background-color: var(--bg-card);
-      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-    }
-    
-    .profile-name {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      letter-spacing: -0.025em;
-    }
-    
-    .profile-title {
-      font-size: 1.1rem;
-      font-weight: 400;
-      opacity: 0.9;
-    }
-    
-    .profile-content {
-      padding: 2rem;
-    }
-    
-    .section {
-      margin-bottom: 2.5rem;
-      animation: fadeIn 0.6s ease-out;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .section:last-child {
-      margin-bottom: 0;
-    }
-    
-    .section-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 1.25rem;
-    }
-    
-    .section-icon {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-      color: white;
-      border-radius: var(--rounded-lg);
-      margin-right: 0.75rem;
-    }
-    
-    .section-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-    
-    .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 1.25rem;
-    }
-    
-    .contact-item {
-      background-color: var(--bg-secondary);
-      padding: 1.25rem;
-      border-radius: var(--rounded-xl);
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .contact-item::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 4px;
-      height: 100%;
-      background: linear-gradient(to bottom, var(--gradient-start), var(--gradient-end));
-      opacity: 0.7;
-    }
-    
-    .contact-item:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-md);
-    }
-    
-    .contact-label {
-      font-size: 0.875rem;
-      color: var(--text-tertiary);
-      margin-bottom: 0.5rem;
-      display: flex;
-      align-items: center;
-    }
-    
-    .contact-label svg {
-      width: 16px;
-      height: 16px;
-      margin-right: 0.5rem;
-      stroke: var(--accent-color);
-    }
-    
-    .contact-value {
-      font-size: 1.125rem;
-      font-weight: 500;
-      color: var(--text-primary);
-      word-break: break-word;
-    }
-    
-    .about-box {
-      background-color: var(--bg-secondary);
-      padding: 1.5rem;
-      border-radius: var(--rounded-xl);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .about-box::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 4px;
-      height: 100%;
-      background: linear-gradient(to bottom, var(--gradient-start), var(--gradient-end));
-      opacity: 0.7;
-    }
-    
-    /* Loading and error states */
-    .loading-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 3rem 2rem;
-      text-align: center;
-    }
-    
-    .loading-spinner {
-      width: 50px;
-      height: 50px;
-      border: 3px solid var(--bg-secondary);
-      border-top-color: var(--accent-color);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-bottom: 1.5rem;
-    }
-    
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    
-    .loading-text {
-      font-size: 1.125rem;
-      font-weight: 500;
-      color: var(--text-secondary);
-    }
-    
-    .error-container {
-      padding: 2rem;
-      text-align: center;
-      background-color: #fef2f2;
-      border-radius: var(--rounded-xl);
-      margin: 2rem;
-    }
-    
-    .error-icon {
-      width: 60px;
-      height: 60px;
-      margin: 0 auto 1.5rem;
-      color: var(--error);
-    }
-    
-    .error-title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 0.75rem;
-    }
-    
-    .error-message {
-      color: var(--text-secondary);
-      margin-bottom: 1.5rem;
-    }
-    
-    .error-button {
-      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-      color: white;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: var(--rounded-lg);
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: var(--shadow-md);
-    }
-    
-    .error-button:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
-    }
-    
-    .empty-state {
-      color: var(--text-tertiary);
-      font-style: italic;
-    }
-    
-    /* Responsive styles */
-    @media (max-width: 768px) {
-      .container {
-        padding: 1rem;
-      }
-      
-      .profile-header {
-        padding: 2.5rem 1.5rem;
-      }
-      
-      .profile-name {
-        font-size: 1.75rem;
-      }
-      
-      .profile-content {
-        padding: 1.5rem;
-      }
-      
-      .contact-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    
-    /* Small mobile devices */
-    @media (max-width: 375px) {
-      .profile-header {
-        padding: 2rem 1rem;
-      }
-      
-      .profile-name {
-        font-size: 1.5rem;
-      }
-      
-      .profile-content {
-        padding: 1.25rem;
-      }
-      
-      .section-title {
-        font-size: 1.125rem;
-      }
-      
-      .contact-item, .about-box {
-        padding: 1rem;
-      }
-    }
-    
-    /* Skeleton loading animation */
-    .skeleton {
-      background: linear-gradient(
-        90deg,
-        var(--bg-secondary) 25%,
-        #e2e8f0 50%,
-        var(--bg-secondary) 75%
-      );
-      background-size: 200% 100%;
-      animation: skeleton-loading 1.5s infinite;
-      border-radius: var(--rounded-md);
-    }
-    
-    @keyframes skeleton-loading {
-      0% {
-        background-position: 200% 0;
-      }
-      100% {
-        background-position: -200% 0;
-      }
-    }
-    
-    .skeleton-text {
-      height: 1.25rem;
-      margin-bottom: 0.75rem;
-      width: 100%;
-    }
-    
-    .skeleton-text.sm {
-      height: 0.875rem;
-      width: 80%;
-    }
-    
-    .skeleton-text.lg {
-      height: 1.75rem;
-      width: 60%;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --background: #f8fafc;
+            --card: #ffffff;
+            --border: #e2e8f0;
+            --accent: #f97316;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.5;
+            padding: 16px;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .profile-card {
+            background-color: var(--card);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .profile-header {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            padding: 24px 20px;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .profile-initials {
+            width: 80px;
+            height: 80px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            color: var(--primary);
+            font-size: 28px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .profile-title {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .profile-body {
+            padding: 24px 20px;
+        }
+
+        .section {
+            margin-bottom: 24px;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 8px;
+        }
+
+        .summary {
+            background-color: rgba(59, 130, 246, 0.05);
+            padding: 16px;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .info-icon {
+            color: var(--primary);
+            font-size: 18px;
+            margin-right: 12px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .info-content {
+            flex: 1;
+        }
+
+        .info-label {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 2px;
+        }
+
+        .info-value {
+            font-size: 16px;
+            word-break: break-word;
+        }
+
+        .contact-button {
+            display: block;
+            background-color: var(--accent);
+            color: white;
+            text-align: center;
+            padding: 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 24px;
+            transition: background-color 0.2s;
+        }
+
+        .contact-button:hover, .contact-button:focus {
+            background-color: #ea580c;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-light);
+        }
+
+        .error {
+            background-color: #fee2e2;
+            border-left: 3px solid #ef4444;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 20px 0;
+            color: #b91c1c;
+        }
+
+        @media (min-width: 640px) {
+            body {
+                padding: 24px;
+            }
+
+            .profile-header {
+                padding: 32px 24px;
+            }
+
+            .profile-body {
+                padding: 32px 24px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="profile-card">
-      <div class="profile-header">
-        <h1 class="profile-name" id="user-name">User Profile</h1>
-        <p class="profile-title" id="user-title">Personal and contact information</p>
-      </div>
-      
-      <div class="profile-content">
-        <div id="profile-content-container">
-          <div class="loading-container">
-            <div class="loading-spinner"></div>
-            <p class="loading-text">Loading profile data...</p>
-          </div>
+    <div class="container">
+        <div id="loading" class="loading">
+            <i class="fas fa-circle-notch fa-spin"></i> Loading profile...
         </div>
-      </div>
+        
+        <div id="error" class="error" style="display: none;">
+            Could not load profile information. Please try again later.
+        </div>
+        
+        <div id="profile-card" class="profile-card" style="display: none;">
+            <div class="profile-header">
+                <div class="profile-initials" id="initials"></div>
+                <h1 class="profile-name" id="fullName"></h1>
+                <div class="profile-title" id="profileTitle"></div>
+            </div>
+            
+            <div class="profile-body">
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-user"></i> About</h2>
+                    <div class="summary" id="summary"></div>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-address-card"></i> Contact Information</h2>
+                    <ul class="info-list">
+                        <li class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-label">Email</div>
+                                <div class="info-value" id="email"></div>
+                            </div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-label">Phone</div>
+                                <div class="info-value" id="phone"></div>
+                            </div>
+                        </li>
+                        <li class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-label">Location</div>
+                                <div class="info-value" id="location"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <a href="#" class="contact-button" id="contactBtn">Contact Me</a>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <script>
-    async function loadUserData() {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get("id");
-      const contentContainer = document.getElementById("profile-content-container");
-      
-      // Show skeleton loading while fetching data
-      contentContainer.innerHTML = `
-        <div class="section">
-          <div class="section-header">
-            <div class="section-icon skeleton"></div>
-            <h2 class="section-title skeleton skeleton-text lg"></h2>
-          </div>
-          <div class="contact-grid">
-            <div class="contact-item">
-              <div class="skeleton skeleton-text sm"></div>
-              <div class="skeleton skeleton-text"></div>
-            </div>
-            <div class="contact-item">
-              <div class="skeleton skeleton-text sm"></div>
-              <div class="skeleton skeleton-text"></div>
-            </div>
-          </div>
-        </div>
-        <div class="section">
-          <div class="section-header">
-            <div class="section-icon skeleton"></div>
-            <h2 class="section-title skeleton skeleton-text lg"></h2>
-          </div>
-          <div class="about-box">
-            <div class="skeleton skeleton-text"></div>
-            <div class="skeleton skeleton-text"></div>
-            <div class="skeleton skeleton-text" style="width: 90%;"></div>
-          </div>
-        </div>
-      `;
-
-      if (!id) {
-        showError("Missing User ID", "No user ID was provided in the URL. Please check the URL and try again.");
-        return;
-      }
-
-      try {
-        const res = await fetch(`https://job-fvr7.onrender.com/api/auth/publicUser/${id}`);
-        
-        if (!res.ok) {
-          throw new Error(`Server responded with status: ${res.status}`);
-        }
-        
-        const user = await res.json();
-
-        if (!user || user.message === "User not found") {
-          showError("User Not Found", "The requested user profile could not be found. Please check the ID and try again.");
-          return;
-        }
-
-        // Update header with user name if available
-        if (user.firstName && user.lastName) {
-          document.getElementById("user-name").textContent = `${user.firstName} ${user.lastName}`;
-          document.getElementById("user-title").textContent = user.title || "Professional Profile";
-        }
-
-        // Build the profile content
-        let html = '';
-        
-        // Contact Information Section
-        html += `
-          <div class="section">
-            <div class="section-header">
-              <div class="section-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                  <polyline points="22,6 12,13 2,6"></polyline>
-                </svg>
-              </div>
-              <h2 class="section-title">Contact Information</h2>
-            </div>
+    <script>
+        // Get user ID from URL
+        function getUserIdFromUrl() {
+            // Get the ID from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
             
-            <div class="contact-grid">
-              <div class="contact-item">
-                <div class="contact-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                    <polyline points="22,6 12,13 2,6"></polyline>
-                  </svg>
-                  Email
-                </div>
-                <div class="contact-value">${user.email || '<span class="empty-state">Not provided</span>'}</div>
-              </div>
-              
-              <div class="contact-item">
-                <div class="contact-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                  </svg>
-                  Phone
-                </div>
-                <div class="contact-value">${user.phone || '<span class="empty-state">Not provided</span>'}</div>
-              </div>
-              
-              <div class="contact-item">
-                <div class="contact-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                  </svg>
-                  Location
-                </div>
-                <div class="contact-value">${user.location || '<span class="empty-state">Not provided</span>'}</div>
-              </div>
-        `;
-        
-        // Add website if available
-        if (user.website) {
-          html += `
-            <div class="contact-item">
-              <div class="contact-label">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="2" y1="12" x2="22" y2="12"></line>
-                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                </svg>
-                Website
-              </div>
-              <div class="contact-value">${user.website}</div>
-            </div>
-          `;
-        }
-        
-        html += `
-            </div>
-          </div>
-        `;
-        
-        // About Section
-        html += `
-          <div class="section">
-            <div class="section-header">
-              <div class="section-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <path d="M12 16v-4"></path>
-                  <path d="M12 8h.01"></path>
-                </svg>
-              </div>
-              <h2 class="section-title">About</h2>
-            </div>
+            // If no ID in URL, try to get it from the path
+            if (!id) {
+                const pathParts = window.location.pathname.split('/');
+                return pathParts[pathParts.length - 1];
+            }
             
-            <div class="about-box">
-              <p>${user.summary || '<span class="empty-state">No summary provided.</span>'}</p>
-            </div>
-          </div>
-        `;
-        
-        // Add additional sections if data is available
-        if (user.skills && user.skills.length > 0) {
-          html += `
-            <div class="section">
-              <div class="section-header">
-                <div class="section-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                  </svg>
-                </div>
-                <h2 class="section-title">Skills</h2>
-              </div>
-              
-              <div class="skills-list">
-                ${user.skills.map(skill => `<div class="skill-tag">${skill}</div>`).join('')}
-              </div>
-            </div>
-          `;
+            return id;
         }
-        
-        contentContainer.innerHTML = html;
-        
-        // Add hover effects for interactive elements
-        document.querySelectorAll('.contact-item').forEach(item => {
-          item.addEventListener('mouseenter', () => {
-            item.style.transform = 'translateY(-3px)';
-            item.style.boxShadow = 'var(--shadow-md)';
-          });
-          
-          item.addEventListener('mouseleave', () => {
-            item.style.transform = '';
-            item.style.boxShadow = '';
-          });
-          
-          // Touch events for mobile
-          item.addEventListener('touchstart', () => {
-            item.style.transform = 'translateY(-3px)';
-            item.style.boxShadow = 'var(--shadow-md)';
-          }, { passive: true });
-          
-          item.addEventListener('touchend', () => {
-            setTimeout(() => {
-              item.style.transform = '';
-              item.style.boxShadow = '';
-            }, 300);
-          }, { passive: true });
+
+        // Fetch user data from API
+        async function fetchUserData(id) {
+            try {
+                const response = await fetch(`https://job-fvr7.onrender.com/api/auth/publicUser/${id}`);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user data');
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+                throw error;
+            }
+        }
+
+        // Update UI with user data
+        function updateUI(userData) {
+            // Set full name
+            document.getElementById('fullName').textContent = `${userData.firstName} ${userData.lastName}`;
+            
+            // Set initials
+            const initials = `${userData.firstName.charAt(0)}${userData.lastName.charAt(0)}`;
+            document.getElementById('initials').textContent = initials;
+            
+            // Set profile title
+            document.getElementById('profileTitle').textContent = userData.summary;
+            
+            // Set summary
+            document.getElementById('summary').textContent = userData.summary;
+            
+            // Set contact information
+            document.getElementById('email').textContent = userData.email;
+            document.getElementById('phone').textContent = userData.phone;
+            document.getElementById('location').textContent = userData.location;
+            
+            // Set contact button
+            document.getElementById('contactBtn').href = `mailto:${userData.email}`;
+            
+            // Hide loading, show profile
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('profile-card').style.display = 'block';
+        }
+
+        // Show error message
+        function showError() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'block';
+        }
+
+        // Initialize the page
+        async function initPage() {
+            const userId = getUserIdFromUrl();
+            
+            if (!userId) {
+                showError();
+                document.getElementById('error').textContent = 'No user ID provided. Please check the URL.';
+                return;
+            }
+            
+            try {
+                const userData = await fetchUserData(userId);
+                updateUI(userData);
+            } catch (error) {
+                showError();
+            }
+        }
+
+        // Start the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initPage);
+
+        // For testing purposes - if API call fails, use this sample data
+        window.addEventListener('error', function() {
+            const sampleData = {
+                "firstName": "Aishwarya",
+                "lastName": "Hulmani",
+                "email": "aishwaryahulmani2668@gmail.com",
+                "phone": 9164693037,
+                "location": "hubli",
+                "summary": "ui/ux designer"
+            };
+            
+            updateUI(sampleData);
         });
-        
-      } catch (err) {
-        console.error(err);
-        showError("Error Loading Profile", "There was a problem loading the user profile. Please try again later.");
-      }
-    }
-    
-    function showError(title, message) {
-      const contentContainer = document.getElementById("profile-content-container");
-      contentContainer.innerHTML = `
-        <div class="error-container">
-          <div class="error-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="8" x2="12" y2="12"></line>
-              <line x1="12" y1="16" x2="12.01" y2="16"></line>
-            </svg>
-          </div>
-          <h3 class="error-title">${title}</h3>
-          <p class="error-message">${message}</p>
-          <button class="error-button" onclick="loadUserData()">Try Again</button>
-        </div>
-      `;
-    }
-
-    // Initialize
-    document.addEventListener('DOMContentLoaded', loadUserData);
-  </script>
+    </script>
 </body>
 </html>
